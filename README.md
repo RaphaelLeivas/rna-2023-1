@@ -22,3 +22,12 @@ Repositório para códigos da disciplina de Redes Neurais Artificais - UFMG 2023
 - Abra o RStudio no mesmo arquivo que está editando no VS Code para compilar e gerar gráficos
 - Para documentar, abra uma segunda instância no VS Code para fazer o codigo LaTeX
     - integração RStudio + Miktex não funcionou, não posso perder muito mais tempo com isso.
+
+- sempre que precisar instalar pacotes para usar no R, instale através do CMD
+
+````
+cmd
+r
+install.packages("packageName")
+
+```` 
