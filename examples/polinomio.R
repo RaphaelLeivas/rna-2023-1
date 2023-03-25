@@ -22,7 +22,7 @@ Y <- fgx(X) + 10 * rnorm(length(X)) # dados de aprendizado
 H <- cbind(X^2, X^1, X^0)
 
 # %*% é multiplicação matricial
-# ou seja, temos a equação matricial w = H^-1 * Y, que veio de
+# ou seja, temos a equação matricial w = H^+ * Y, que veio de
 # Hw = y. Note que Hw = y é o sistema linear
 # de todas equações montadas a partir das entradas
 w <- pseudoinverse(H) %*% Y
