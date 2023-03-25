@@ -1,7 +1,7 @@
 rm(list = ls())
 # dev.off()
 
-POLYNOMIAL_DEGREE <- 5
+POLYNOMIAL_DEGREE <- 8
 
 library("corpcor") # usado para função da pseudoinversa
 
@@ -9,8 +9,10 @@ fgx <- function(xin) {
     (0.5 * xin^2) + (3 * xin) + 10
 }
 
-X <- runif(n = 20, min = -15, max = 10) # vetor aleatorio
+X <- runif(n = 10, min = -15, max = 10) # vetor aleatorio
 Y <- fgx(X) + 10 * rnorm(length(X), mean = 0, sd = 4) # dados de aprendizado
+
+
 
 switch(POLYNOMIAL_DEGREE,
     H <- cbind(X^1, X^0),
@@ -48,6 +50,7 @@ switch(POLYNOMIAL_DEGREE,
 yhatgrid <- Hgrid %*% w
 
 # yhatgrid é y chapeu: é a saida aprendida da maquina
+par(mfrow = c(2, 4))
 plot(
     NULL,
     main = if (POLYNOMIAL_DEGREE == 1) {
@@ -72,9 +75,9 @@ plot(
     ylim = c(-100, 200),
     xlim = c(-15, 10)
 )
-lines(xgrid, yhatgrid, col = "red")
-lines(xgrid, ygrid, col = "blue")
-points(X, Y, col = "black")
+lines(xgrid, yhatgrid, col = "red", lwd = 2)
+lines(xgrid, ygrid, col = "blue", lwd = 2)
+points(X, Y, col = "black", lwd = 2)
 
 # legend(
 #     "bottom",
