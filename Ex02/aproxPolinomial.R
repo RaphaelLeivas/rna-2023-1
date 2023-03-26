@@ -7,7 +7,9 @@ fgx <- function(xin) {
     (0.5 * xin^2) + (3 * xin) + 10
 }
 
-X <- runif(n = 10, min = -15, max = 10) # vetor aleatorio
+NUMBER_OF_SAMPLES <- 10
+
+X <- runif(n = NUMBER_OF_SAMPLES, min = -15, max = 10) # vetor aleatorio
 Y <- fgx(X) + 10 * rnorm(length(X), mean = 0, sd = 4) # dados de aprendizado
 par(mfrow = c(2, 4))
 
