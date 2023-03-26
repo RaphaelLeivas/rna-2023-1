@@ -16,7 +16,7 @@ y <- matrix(4 * x + 2, ncol = 1)
 # temos um conjunto de dados (xi, yi) para aprendizagem
 plot(
     NULL,
-    main = "Treinamento Adaline",
+    main = "Treinamento Adaline Univariado",
     xlab = "Eixo X",
     ylab = "Eixo Y",
     ylim = c(-2, 20),
