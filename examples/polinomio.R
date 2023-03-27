@@ -2,7 +2,7 @@
 # saida esperada fg(x) + ruido gaussiano
 
 rm(list = ls())
-dev.off()
+# dev.off()
 
 library("corpcor") # usado para função da pseudoinversa
 
