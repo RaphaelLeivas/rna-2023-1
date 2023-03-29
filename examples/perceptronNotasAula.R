@@ -1,5 +1,7 @@
 rm(list = ls())
 library("plot3D")
+source("C:\\dev\\rna-2023-1\\examples\\trainperceptron.R")
+
 
 xc1 <- matrix(0.3 * rnorm(60) + 2, ncol = 2)
 xc2 <- matrix(0.3 * rnorm(60) + 4, ncol = 2)
@@ -13,6 +15,15 @@ npgrid <- length(seqx1x2)
 M <- matrix(nrow = npgrid, ncol = npgrid)
 ci <- 0
 w <- as.matrix(c(6, 1, 1))
+
+xall <- rbind(xc1, xc2)
+yall <- rbind(matrix(0, nrow = 60), matrix(1, nrow = 60))
+
+retlist <- trainperceptron(xall, yall, 0.1, 0.01, 1000, 1)
+wfinal <- as.matrix(retlist[[1]])
+print(wfinal)
+erro <- retlist[[2]]
+print(erro)
 
 for (x1 in seqx1x2) {
     ci <- ci + 1
