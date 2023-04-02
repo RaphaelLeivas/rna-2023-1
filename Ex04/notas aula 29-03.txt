@@ -1,0 +1,8 @@
+- equação reta (perceptron)
+x2 = -w1/w2 x1 + w0/w2
+* no retlist, o primeiro elemento é o w0
+	w[1] = w0
+	etc
+
+
+- tem que rodar varias vezes, apresentar a media e o desvio no relatorio (ex04)
