@@ -1,11 +1,13 @@
 # nomenclatura: época é um loop do while()
+# realimentação e aprendizado de w ocorre em: wt <- wt + dw, onde dw <- c(eta) * c(ei) * xin[irand, ]
+# mdoelo teorico para realimentação: w(t+1) = w(t) + eta * ei * xi
 
 trainadaline <- function(
     xin,
     yd,
-    eta, # cosntante de hiperparametro
-    tol, # tolerancia de treinamento
-    maxepocas, # maximo de loops principais
+    eta, # passo de ajuste
+    tol, # tolerancia de treinamento (condição para parar o treinamento, que ja esta bom)
+    maxepocas, # maximo de loops permitidos no treinamento
     par # flag true ou false para acrescentar uma coluna adicional à matriz Z
 ) {
     # extrai informações das entradas
@@ -47,3 +49,7 @@ trainadaline <- function(
     return(retlist)
     # retorna pametros parendidos e os erros de cada loop durante o processo
 }
+
+# lembra que adaline é sempre LIENAR
+# os parametros retornados são coeficientes de uma equação da reta
+# yhat = w[n] * x[n] + w[n-1] * x[n-1] + ... + w[1]
