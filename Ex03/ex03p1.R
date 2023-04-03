@@ -69,24 +69,9 @@ y <- c(
     0.416175350540322
 )
 
-# plot(
-#     NULL,
-#     main = "Exercício 3 Parte 1 - Dados de entrada",
-#     xlab = "t",
-#     ylab = "x, y",
-#     ylim = c(-1, 1),
-#     xlim = range(t)
-# )
-
-# points(t, x, col = "blue", lwd = 1)
-# lines(t, x, col = "blue", lwd = 1)
-# points(t, y, col = "red", lwd = 1)
-# lines(t, y, col = "red", lwd = 1)
-
 x_formatted <- matrix(x, ncol = 1)
 y_formatted <- matrix(y, ncol = 1)
 
-# vamos treinar uma RNA com o modelo Adaline para esses dados
 retlist <- trainadaline(x_formatted, y_formatted, 0.01, 0.001, 500, 1)
 w <- retlist[[1]]
 erro <- retlist[[2]]
@@ -99,13 +84,6 @@ plot(
     ylim = c(-1, 1),
     xlim = c(-1, 1)
 )
+
 points(x, y, col = "blue", lwd = 1)
 lines(x, w[2] * x + w[1], col = "red", lwd = 1)
-
-# t_test <- seq(0, 1.5, 0.1)
-# x_test <- sin(t_test)
-# y_test <- sin(0.25 * t_test + 0.75)
-# print(y_test)
-
-# points(x_test, y_test, col = "blue", lwd = 1)
-# lines(x_test, w[2] * x_test + w[1], col = "red", lwd = 1)
