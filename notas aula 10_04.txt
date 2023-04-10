@@ -1,0 +1,52 @@
+- transformação nos dados
+
+- 60 amostras de cada classe
+- total 120
+
+- x é 120 por 2, usado para treinar (120 por 3, com a polarização)
+- matrix de projeção vai ser, com 5 neuronios, (p = neuronios), 120 por 5
+- a matriz Z tem um termo de polarização a mais, 
+	* tentando estimar ela aleatoriamente
+	
+
+- 2 entradas
+- 5 neuronios prox camada
+- H é 120 por 5 (projecao)
+
+- XZ = H
+	* logo, Z tem dimensao 3 por 5
+
+- para gerar Z 3 por 5, usa
+	* Z <- replicate(5, ruinf(3, -0.5, 0.5), onde 5 é o numero de neuronios
+	* Z <- matrix(runif(15, -0.5, 0.5), ncol = 5, nrow = 3)
+	* gera aleatoriamente
+
+		neuronio1
+
+
+x1
+
+		neuronio2
+
+		neuronio3
+
+		neuronio4
+
+x2
+
+		neuronio5
+
+(mais a polarização aqui)
+
+	* com as setinhas ligando, vemos que é de fato 3 por 5
+	* Z{ij} é a i-esima entrada ligada no j-esimo neuronio
+
+
+- colocar 1 na frente do X:
+	* cbind(1, X)
+
+- depois da camada escondida, temos o H que é linearmente separaval
+	* resolve com perceptron
+
+- com o H, obtemos o W (vetor de pesos do perceptron final) via
+	W = H^+  * Y, com pseurdo inversa
