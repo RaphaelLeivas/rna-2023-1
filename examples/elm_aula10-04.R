@@ -4,26 +4,37 @@ rm(list = ls())
 library("corpcor") # usado para função da pseudoinversa
 
 N <- 60
-p <- 5
+p <- 10
 
-# xc1: x da classe 1
+# xc1p1 <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+# xc1p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
+# xc1 <- rbind(xc1p1, xc1p2)
 
-xc1 <- matrix(rnorm(N), ncol = 2) + matrix(c(7, 4), nrow = N/2, ncol = 2, byrow = TRUE)
-xc2 <- matrix(rnorm(N), ncol = 2) + matrix(c(9, 5.5), nrow = N/2, ncol = 2, byrow = TRUE)
+# xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
+# xc2p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2) + 6)
+# xc2 <- rbind(xc2p1, xc2p2)
 
-Y <- rbind(matrix(0, nrow = N/2), matrix(1, nrow = N/2))
+xc1p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc1 <- rbind(xc1p1, xc1p2)
+
+xc2p1 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
+xc2p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2) + 6)
+xc2 <- rbind(xc2p1, xc2p2)
 
 plot(
   NULL,
   main = "Treinamento ELM",
   xlab = "x1",
   ylab = "x2",
-  ylim = c(0, 10),
-  xlim = c(0, 15)
+  ylim = c(-10, 10),
+  xlim = c(-5, 15)
 )
 
-points (xc1[,1], xc1[,2], col = "red")
-points (xc2[,1], xc2[,2], col = "blue")
+points(xc1[, 1], xc1[, 2], col = "red")
+points(xc2[, 1], xc2[, 2], col = "blue")
+
+Y <- rbind(matrix(-1, nrow = N), matrix(1, nrow = N)) # como iniciar o Y ?
 
 Z <- replicate(p, runif(3, -0.5, 0.5))
 
@@ -36,22 +47,30 @@ H <- tanh(Xaug %*% Z)
 W <- pseudoinverse(H) %*% Y
 
 Yhat_train <- sign(H %*% W)
-e_train <- sum((Y - Yhat_train)^2)/4
+e_train <- sum((Y - Yhat_train)^2) / 4
+print(e_train)
 
 ## testes
 
-xc1_t <- matrix(rnorm(N), ncol = 2) + matrix(c(7, 4), nrow = N/2, ncol = 2, byrow = TRUE)
-xc2_t <- matrix(rnorm(N), ncol = 2) + matrix(c(9, 5.5), nrow = N/2, ncol = 2, byrow = TRUE)
-X_t <- as.matrix(rbind(xc1, xc2))
+xc1p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc1p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc1_t <- rbind(xc1p1_t, xc1p2_t)
+
+xc2p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc2p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc2_t <- rbind(xc2p1_t, xc2p2_t)
+
+X_t <- rbind(xc1_t, xc2_t)
 
 Xaug_t <- cbind(replicate(N, 1), X_t)
 
 H_t <- tanh(Xaug_t %*% Z)
 Yhat_t <- sign(H_t %*% W)
-e_t <- sum((Y - Yhat_t)^2)/4
-print(e_t)
+e_t <- sum((Y - Yhat_t)^2) / 4
 
-# falta printar aqui a curva
-
-
+# usa contour sobre o yhat ja calculado
+# contour(
+#   x = seq(-10, 10, 0.1),
+#   y = seq(-10, 10, 0.1)
+# )
 
