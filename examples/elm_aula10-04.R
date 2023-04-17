@@ -4,21 +4,13 @@ rm(list = ls())
 library("corpcor") # usado para função da pseudoinversa
 
 N <- 60
-p <- 10
+p <- 20
 
-# xc1p1 <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
-# xc1p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
-# xc1 <- rbind(xc1p1, xc1p2)
-
-# xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
-# xc2p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2) + 6)
-# xc2 <- rbind(xc2p1, xc2p2)
-
-xc1p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc1p1 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
 xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
 xc1 <- rbind(xc1p1, xc1p2)
 
-xc2p1 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
+xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
 xc2p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2) + 6)
 xc2 <- rbind(xc2p1, xc2p2)
 
@@ -34,7 +26,7 @@ plot(
 points(xc1[, 1], xc1[, 2], col = "red")
 points(xc2[, 1], xc2[, 2], col = "blue")
 
-Y <- rbind(matrix(-1, nrow = N), matrix(1, nrow = N)) # como iniciar o Y ?
+Y <- rbind(matrix(-1, nrow = N), matrix(1, nrow = N))
 
 Z <- replicate(p, runif(3, -0.5, 0.5))
 
@@ -42,7 +34,7 @@ X <- as.matrix(rbind(xc1, xc2))
 
 Xaug <- cbind(replicate(N, 1), X)
 
-H <- tanh(Xaug %*% Z)
+H <- tanh(Xaug %*% Z) # tanh é a função de ativação da camada intermediária
 
 W <- pseudoinverse(H) %*% Y
 
@@ -68,9 +60,4 @@ H_t <- tanh(Xaug_t %*% Z)
 Yhat_t <- sign(H_t %*% W)
 e_t <- sum((Y - Yhat_t)^2) / 4
 
-# usa contour sobre o yhat ja calculado
-# contour(
-#   x = seq(-10, 10, 0.1),
-#   y = seq(-10, 10, 0.1)
-# )
-
+print(e_t)

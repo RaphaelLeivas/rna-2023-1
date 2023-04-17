@@ -3,7 +3,7 @@
 trainperceptron <- function(
     xin,
     yd,
-    eta, # cosntante de hiperparametro
+    eta, # passo de aprendizagem 
     tol, # tolerancia de treinamento
     maxepocas, # maximo de loops principais
     par # flag true ou false para acrescentar uma coluna adicional à matriz Z
