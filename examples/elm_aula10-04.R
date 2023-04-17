@@ -6,12 +6,12 @@ library("corpcor") # usado para função da pseudoinversa
 N <- 60
 p <- 20
 
-xc1p1 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2))
-xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
+xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 12)
 xc1 <- rbind(xc1p1, xc1p2)
 
 xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
-xc2p2 <- cbind(rnorm(N / 2) + 6, rnorm(N / 2) + 6)
+xc2p2 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2) + 12)
 xc2 <- rbind(xc2p1, xc2p2)
 
 plot(
@@ -19,14 +19,14 @@ plot(
   main = "Treinamento ELM",
   xlab = "x1",
   ylab = "x2",
-  ylim = c(-10, 10),
+  ylim = c(-10, 20),
   xlim = c(-5, 15)
 )
 
 points(xc1[, 1], xc1[, 2], col = "red")
 points(xc2[, 1], xc2[, 2], col = "blue")
 
-Y <- rbind(matrix(-1, nrow = N), matrix(1, nrow = N))
+Y <- rbind(matrix(0, nrow = N), matrix(1, nrow = N))
 
 Z <- replicate(p, runif(3, -0.5, 0.5))
 

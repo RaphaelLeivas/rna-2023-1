@@ -66,3 +66,6 @@ for (x1 in seqx1x2) {
 ribbon3D(seqx1x2, seqx1x2, xlim = c(0, 6), ylim = c(0, 6), M, colkey = FALSE)
 scatter3D(xc1[, 1], xc1[, 2], matrix(0, nrow = dim(xc1)[1]), add = TRUE, col = "blue", colkey = FALSE)
 scatter3D(xc2[, 1], xc2[, 2], matrix(0, nrow = dim(xc1)[1]), add = TRUE, col = "red", colkey = FALSE)
+
+# note que a fronteira de separação no gráfico 3D não é polinômio, e sim apenas uma curva na fronteira entre
+# as regiões que valem 0 e 1. a rede foi aplicada a cada ponto da seqx1x2 no espaço, retornando 0 ou 1 a cada ponto.
