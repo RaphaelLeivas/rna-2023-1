@@ -1,9 +1,0 @@
-Situação atual
-
-- aprender contour -> OK
-- fazer o que precisa para a Aula de 19/04
-    * preciso ver como usar o lambda, igual fizemos na aula de 17/04
-
-- aprender mais a matéria, deixar ela internalizada
-
-- fazer os exercícios do moodle todos
