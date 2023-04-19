@@ -1,0 +1,68 @@
+- coloca p elevado
+- mostra overfitting
+- para um mesmo p, vai aumentando o lambda ate o contorno suavizar
+- depois de aumentar o lambda na mao, faz um for e faz ele aumentar
+
+rm(list = ls())
+# dev.off()
+
+library("corpcor") # usado para função da pseudoinversa
+
+N <- 60
+p <- 20
+
+xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
+xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 12)
+xc1 <- rbind(xc1p1, xc1p2)
+
+xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc2p2 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2) + 12)
+xc2 <- rbind(xc2p1, xc2p2)
+
+plot(
+  NULL,
+  main = "Treinamento ELM",
+  xlab = "x1",
+  ylab = "x2",
+  ylim = c(-10, 20),
+  xlim = c(-5, 15)
+)
+
+points(xc1[, 1], xc1[, 2], col = "red")
+points(xc2[, 1], xc2[, 2], col = "blue")
+
+Y <- rbind(matrix(0, nrow = N), matrix(1, nrow = N))
+
+Z <- replicate(p, runif(3, -0.5, 0.5))
+
+X <- as.matrix(rbind(xc1, xc2))
+
+Xaug <- cbind(replicate(N, 1), X)
+
+H <- tanh(Xaug %*% Z) # tanh é a função de ativação da camada intermediária
+
+W <- pseudoinverse(H) %*% Y
+
+Yhat_train <- sign(H %*% W)
+e_train <- sum((Y - Yhat_train)^2) / 4
+print(e_train)
+
+## testes
+
+xc1p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc1p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc1_t <- rbind(xc1p1_t, xc1p2_t)
+
+xc2p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
+xc2p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
+xc2_t <- rbind(xc2p1_t, xc2p2_t)
+
+X_t <- rbind(xc1_t, xc2_t)
+
+Xaug_t <- cbind(replicate(N, 1), X_t)
+
+H_t <- tanh(Xaug_t %*% Z)
+Yhat_t <- sign(H_t %*% W)
+e_t <- sum((Y - Yhat_t)^2) / 4
+
+print(e_t)
