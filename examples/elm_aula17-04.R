@@ -1,13 +1,19 @@
 # Y = HW (pagina 76 notas de aula)
 # onde H = tanh(x * Z)
 
+# coloca p elevado OK
+# mostra overfitting OK
+# para um mesmo p, vai aumentando o lambda ate o contorno suavizar OK
+# depois de aumentar o lambda na mao, faz um for e faz ele aumentar
+
 rm(list = ls())
 dev.off()
 
 library("corpcor")
 
 N <- 50
-p <- 10
+p <- 40
+lambda <- 10
 
 xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
 xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 12)
@@ -39,7 +45,10 @@ Xaug <- cbind(replicate(N, 1), X)
 
 H <- tanh(Xaug %*% Z) # tanh é a função de ativação da camada intermediária
 
-W <- pseudoinverse(H) %*% Y
+# W <- pseudoinverse(H) %*% Y
+A <- (t(H) %*% H) + (lambda * diag(p))
+A_inv <- solve(A)
+W <- A_inv %*% t(H) %*% Y
 
 Yhat_train <- sign(H %*% W)
 e_train <- sum((Y - Yhat_train)^2) / 4

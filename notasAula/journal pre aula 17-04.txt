@@ -1,6 +1,0 @@
-
-
-- exemplo sintetico ELM
-	* o erro esta dando grande, por volta de 15 nos dois casos
-	* Y inicial é -1 e 1, certo?
-	* ainda não sei usar o contour
