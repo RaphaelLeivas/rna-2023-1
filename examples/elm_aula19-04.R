@@ -1,10 +1,7 @@
 # Y = HW (pagina 76 notas de aula)
 # onde H = tanh(x * Z)
 
-# coloca p elevado OK
-# mostra overfitting OK
-# para um mesmo p, vai aumentando o lambda ate o contorno suavizar OK
-# depois de aumentar o lambda na mao, faz um for e faz ele aumentar
+# cria as funções que geram A e P, vamos precisar deles no LOO no final da aula
 
 rm(list = ls())
 # dev.off()
@@ -13,7 +10,7 @@ library("corpcor")
 
 N <- 50
 p <- 40
-lambda <- 1
+lambda <- 0.1
 
 xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
 xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 12)
@@ -45,14 +42,33 @@ Xaug <- cbind(replicate(N, 1), X)
 
 H <- tanh(Xaug %*% Z) # tanh é a função de ativação da camada intermediária
 
-# W <- pseudoinverse(H) %*% Y
+# define as matrizes A e P
+# L = lambda * diag(p)
 A <- (t(H) %*% H) + (lambda * diag(p))
 A_inv <- solve(A)
 W <- A_inv %*% t(H) %*% Y
 
+P <- (diag(2 * N) - H %*% solve(A) %*% t(H))
+
 Yhat_train <- sign(H %*% W)
 e_train <- sum((Y - Yhat_train)^2) / 4
 print(e_train)
+
+# com A e P, podemos calcular os erros
+
+Je <- t(Y) %*% (P %*% P) %*% Y
+Jew <- t(Y - Yhat_train) %*% (Y - Yhat_train)
+print(cbind(Je, Jew))
+
+Jw <- t(Y) %*% (P - P%*%P) %*% Y
+Jww <- t(W) %*% (lambda * diag(p)) %*% W
+print(cbind(Jw, Jww))
+
+J <- Jw + Jww
+print(J)
+
+Jformula <- t(Yhat_train) %*% P %*% Yhat_train
+print(Jformula)
 
 ## achei o W, agora vamos aplicar esse paramentro aprendido sobre o grid
 
@@ -84,26 +100,3 @@ contour(
   drawlabels = FALSE,
   col = "orange"
 )
-
-## testes
-
-# xc1p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
-# xc1p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
-# xc1_t <- rbind(xc1p1_t, xc1p2_t)
-
-# xc2p1_t <- cbind(rnorm(N / 2), rnorm(N / 2))
-# xc2p2_t <- cbind(rnorm(N / 2), rnorm(N / 2) + 6)
-# xc2_t <- rbind(xc2p1_t, xc2p2_t)
-
-# X_t <- rbind(xc1_t, xc2_t)
-
-# Xaug_t <- cbind(replicate(N, 1), X_t)
-
-# H_t <- tanh(Xaug_t %*% Z)
-# Yhat_t <- sign(H_t %*% W)
-# e_t <- sum((Y - Yhat_t)^2) / 4
-
-# print(e_t)
-
-# o erro e_t está dando muito alto, deve ser a forma que estou gerando os dados de teste
-# que está incorreta

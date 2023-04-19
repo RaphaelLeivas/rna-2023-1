@@ -1,0 +1,71 @@
+- hiperparametro: fornecido a priori (antes de rodar)
+    - ex: lambda no elm com regularização
+- LOO: escolhe um hiperparametro que minimiza o erro
+    - n de camadas, n de neuronios da camada sao hiperparametros
+- J = e^2 + |W| (eq 10 notas RBF)
+
+- inicio do codigo, gera A e P   
+- a eq 30 é a equação de J = Je + lambda Jw (combinação linear)
+    - 
+
+--- DUVIDAS
+
+- queremos minimizar J ? entender o significado aqui
+- a rede esta mapeando o espaço em -1 e 1
+    - o RBF do quadro (foto), recebe um x e retorno um numero real    
+        - logo, o neuronio final é adaline?
+
+--- 
+
+x < data matrix (sseq(0, 2pi, 0.3pi))
+N < length(X)
+
+y < sin(x)
+
+plot (x,y)
+
+
+# arbitrarios
+m1 0,5 pi
+m2 3pi sobre 2
+r1 0.6
+r2 0.6
+P 2
+
+h1 < rbf G1var(x, m1, r1)
+h2 < rbf G1var(x, m2, r2)
+H < cind(h1 h2)
+
+
+L < 0.5 diag(p)
+lambda = 0.5 nesse caso
+
+A < t(h) %*% H + L
+P < (diag(N) - H %*% solve(A) %*% t(H))
+
+# agora calcula o erro
+w < solve(A) %*% t(H) %*% y
+
+# gera os dados de teste
+
+xt < seq(0 , 2pi, 0.01pi)
+h1t < rbfG1var(xt, m1, r1)
+h2t < rbfG1var(xt, m2, r2)
+Ht < cbind
+
+yhat < H %*% W
+yhatteste < Htst %*% w
+
+Je < t(y) %*% (P%*%P)%*%y
+Jew < t(y-yhat) %*% (y-yhat)
+
+print(cbind(Je, Jew))
+
+Jw < t(y) %*% (P-P%*%P)%*%y
+Jww < t(w) %*% L %*% w
+
+print(cbind(Jw, Jww))
+J < Jw + jww
+
+
+#
