@@ -8,16 +8,19 @@ rm(list = ls())
 
 library("corpcor")
 
-N <- 50
-p <- 25
-lambda <- 0.1
+# usa N divisivel por 4 para evitar problema, pois contruo os dados de um quarto
+# em um quarto
+# Note que N é o numero total de dados
+N <- 96 
+p <- 50
+lambda <- 0.2
 
-xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
-xc1p2 <- cbind(rnorm(N / 2), rnorm(N / 2) + 12)
+xc1p1 <- cbind(rnorm(N / 4) + 12, rnorm(N / 4))
+xc1p2 <- cbind(rnorm(N / 4), rnorm(N / 4) + 12)
 xc1 <- rbind(xc1p1, xc1p2)
 
-xc2p1 <- cbind(rnorm(N / 2), rnorm(N / 2))
-xc2p2 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2) + 12)
+xc2p1 <- cbind(rnorm(N / 4), rnorm(N / 4))
+xc2p2 <- cbind(rnorm(N / 4) + 12, rnorm(N / 4) + 12)
 xc2 <- rbind(xc2p1, xc2p2)
 
 plot(
@@ -32,7 +35,7 @@ plot(
 points(xc1[, 1], xc1[, 2], col = "red")
 points(xc2[, 1], xc2[, 2], col = "blue")
 
-Y <- rbind(matrix(-1, nrow = N), matrix(1, nrow = N))
+Y <- rbind(matrix(-1, nrow = N / 2), matrix(1, nrow = N / 2))
 
 Z <- replicate(p, runif(3, -0.5, 0.5))
 
@@ -48,10 +51,7 @@ A <- (t(H) %*% H) + (lambda * diag(p))
 A_inv <- solve(A)
 W <- A_inv %*% t(H) %*% Y
 
-
-# N deveria ser o numero total de dados, estou usando N como metade do numero total
-# corrigir no futuro
-P <- (diag(2 * N) - H %*% solve(A) %*% t(H))
+P <- (diag(N) - H %*% solve(A) %*% t(H))
 
 Yhat_train <- H %*% W
 e_train <- sum((Y - Yhat_train)^2) / 4
@@ -59,18 +59,18 @@ e_train <- sum((Y - Yhat_train)^2) / 4
 
 # com A e P, podemos calcular os erros
 
-Je<-t(Y)%*%(P%*%P)%*%Y
+Je <- t(Y) %*% (P %*% P) %*% Y
 
-Jew<-t(Y-Yhat_train)%*%(Y-Yhat_train)
-print(cbind(Je,Jew))
+Jew <- t(Y - Yhat_train) %*% (Y - Yhat_train)
+print(cbind(Je, Jew))
 
-Jw<-t(Y)%*%(P-P%*%P)%*%Y
-Jww<-t(W)%*%(lambda*diag(p))%*%W
-print(cbind(Jw,Jww))
+Jw <- t(Y) %*% (P - P %*% P) %*% Y
+Jww <- t(W) %*% (lambda * diag(p)) %*% W
+print(cbind(Jw, Jww))
 
-J<-t(Y)%*%P%*%Y
-Jsum<-Jew+Jww
-print(cbind(J,Jsum))
+J <- t(Y) %*% P %*% Y
+Jsum <- Jew + Jww
+print(cbind(J, Jsum))
 
 ## achei o W, agora vamos aplicar esse paramentro aprendido sobre o grid
 
