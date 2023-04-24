@@ -9,7 +9,7 @@ rm(list = ls())
 library("corpcor")
 
 N <- 50
-p <- 40
+p <- 25
 lambda <- 0.1
 
 xc1p1 <- cbind(rnorm(N / 2) + 12, rnorm(N / 2))
@@ -48,27 +48,29 @@ A <- (t(H) %*% H) + (lambda * diag(p))
 A_inv <- solve(A)
 W <- A_inv %*% t(H) %*% Y
 
+
+# N deveria ser o numero total de dados, estou usando N como metade do numero total
+# corrigir no futuro
 P <- (diag(2 * N) - H %*% solve(A) %*% t(H))
 
-Yhat_train <- sign(H %*% W)
+Yhat_train <- H %*% W
 e_train <- sum((Y - Yhat_train)^2) / 4
-print(e_train)
+# print(e_train)
 
 # com A e P, podemos calcular os erros
 
-Je <- t(Y) %*% (P %*% P) %*% Y
-Jew <- t(Y - Yhat_train) %*% (Y - Yhat_train)
-print(cbind(Je, Jew))
+Je<-t(Y)%*%(P%*%P)%*%Y
 
-Jw <- t(Y) %*% (P - P%*%P) %*% Y
-Jww <- t(W) %*% (lambda * diag(p)) %*% W
-print(cbind(Jw, Jww))
+Jew<-t(Y-Yhat_train)%*%(Y-Yhat_train)
+print(cbind(Je,Jew))
 
-J <- Jw + Jww
-print(J)
+Jw<-t(Y)%*%(P-P%*%P)%*%Y
+Jww<-t(W)%*%(lambda*diag(p))%*%W
+print(cbind(Jw,Jww))
 
-Jformula <- t(Yhat_train) %*% P %*% Yhat_train
-print(Jformula)
+J<-t(Y)%*%P%*%Y
+Jsum<-Jew+Jww
+print(cbind(J,Jsum))
 
 ## achei o W, agora vamos aplicar esse paramentro aprendido sobre o grid
 
