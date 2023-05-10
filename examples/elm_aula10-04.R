@@ -2,7 +2,7 @@
 # onde H = tanh(x * Z)
 
 rm(list = ls())
-dev.off()
+# dev.off()
 
 library("corpcor")
 

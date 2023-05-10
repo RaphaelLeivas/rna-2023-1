@@ -11,7 +11,7 @@ library("corpcor")
 # usa N divisivel por 4 para evitar problema, pois contruo os dados de um quarto
 # em um quarto
 # Note que N é o numero total de dados
-N <- 96 
+N <- 100 
 p <- 50
 lambda <- 0.2
 

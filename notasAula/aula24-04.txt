@@ -1,0 +1,7 @@
+Rede RBF
+
+O numero de centros é o numero de neuronios da camada intermediaria
+    - e um hiperparametro, definido a priori
+    - avalia se ele foi escolhido bem com o desempenho do modelo
+
+Clustering com Kmeans é um tipo de rede RBF
