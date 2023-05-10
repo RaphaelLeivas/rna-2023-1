@@ -1,4 +1,5 @@
 rm(list = ls())
+dev.off()
 # load("C:\\dev\\rna-2023-1\\data2classXOR.txt")
 
 sech2 <- function(u) {
@@ -136,6 +137,3 @@ while ((nepocas < maxepocas) && (eepoca > tol)) {
 }
 
 plot(evec[1:nepocas], type = 'l', lwd = 2)
-
-
-
